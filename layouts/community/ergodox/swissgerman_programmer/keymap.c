@@ -6,8 +6,11 @@
 enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
     EPRM,
-    VRSN,
-    RGB_SLD
+    VRSN,       // print version
+    RGB_SLD,
+    CIRC,       // ^
+    GRV_TLD,    // ` or ~
+    BRK_Z       // Break followed by Z
 };
 
 #define _______ KC_TRNS
@@ -52,24 +55,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |space |      | Ctrl |       | F8   |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[0] = KEYMAP(
+[0] = LAYOUT_ergodox(
     // left hand
-    M(2)    , KC_1    , KC_2   , KC_3    , KC_4     , KC_5    , KC_F11   ,
-    KC_TAB  , KC_Q    , KC_W   , KC_E    , KC_R     , KC_T    , KC_F10   ,
-    F(1)    , KC_A    , KC_S   , KC_D    , KC_F     , KC_G    ,
-    KC_LSFT , KC_Z    , KC_X   , KC_C    , KC_V     , KC_B    , KC_F9    ,
-    F(3)    ,
-         LALT(LCTL(KC_LGUI)),
-                        F(2)   , KC_LALT , F(10)    ,
-                                                      KC_F5   , KC_F3    ,
-                                                                KC_F2    ,
-                                           KC_BSPC  , KC_DEL  , KC_LCTL  ,
+    GRV_TLD , KC_1        , KC_2   , KC_3    , KC_4           , KC_5   , KC_F11  ,
+    KC_TAB  , KC_Q        , KC_W   , KC_E    , KC_R           , KC_T   , KC_F10  ,
+    MO(1)   , KC_A        , KC_S   , KC_D    , KC_F           , KC_G   ,
+    KC_LSFT , KC_Z        , KC_X   , KC_C    , KC_V           , KC_B   , KC_F9   ,
+    MO(3)   , LCA(KC_LGUI), MO(2)  , KC_LALT , LCTL_T(KC_ESC) ,
+                                                                KC_F5  , KC_F3   ,
+                                                                         KC_F2   ,
+                                                     KC_BSPC  , KC_DEL , KC_LCTL ,
     // right hand
     KC_LGUI , KC_6   , KC_7    , KC_8    , KC_9     , KC_0    , KC_MINS  ,
-    F(1)    , KC_Y   , KC_U    , KC_I    , KC_O     , KC_P    , KC_LBRC  ,
+    _______ , KC_Y   , KC_U    , KC_I    , KC_O     , KC_P    , KC_LBRC  ,
     KC_H    , KC_J   , KC_K    , KC_L    , KC_SCLN  , KC_QUOT ,
     KC_RSFT , KC_N   , KC_M    , KC_COMM , KC_DOT   , KC_UP   , KC_SLSH  ,
-                       F(11)   , F(1)    , KC_LEFT  , KC_DOWN , KC_RIGHT ,
+              RCTL_T(KC_ESC)   , MO(1)   , KC_LEFT  , KC_DOWN , KC_RIGHT ,
     KC_PSCR , KC_BRK ,
     KC_F12  ,
     KC_F8   , KC_ENT  , KC_SPC
@@ -95,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |space |      |
  *                                 `--------------------'       `--------------------'
  */
-[1] = KEYMAP(
+[1] = LAYOUT_ergodox(
     // left hand
     KC_GRV  , RALT(KC_1), RALT(KC_2)   , RALT(KC_3)   , _______  , _______   , RESET   ,
     _______ , S(KC_RBRC), S(KC_0)      , RALT(KC_E)   , _______  , _______   , _______ ,
@@ -108,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // right hand
     RESET   , _______   , RALT(KC_NUBS), _______      , _______  , S(KC_RBRC), KC_EQUAL,
     _______ , _______   , RALT(KC_LBRC), RALT(KC_RBRC), _______  , _______   , KC_RBRC ,
-              RALT(KC_7), RALT(KC_QUOT), RALT(KC_NUHS), S(KC_6)  , M(1)      , KC_NUHS ,
+              RALT(KC_7), RALT(KC_QUOT), RALT(KC_NUHS), S(KC_6)  , CIRC      , KC_NUHS ,
     _______ , KC_SLSH   , KC_NUBS      , S(KC_NUBS)   , S(KC_DOT), KC_PGUP   , _______ ,
                           _______      , _______      , KC_HOME  , KC_PGDN   , KC_END  ,
     _______ , _______ ,
@@ -136,9 +137,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |VolDwn|      | Pause|
  *                                 `--------------------'       `--------------------'
  */
-[2] = KEYMAP(  // Layer2:
+[2] = LAYOUT_ergodox(  // Layer2:
         // left hand
-        M(0)    , KC_F1   , KC_F2   , KC_F3   , _______ , _______ , _______ ,
+        VRSN    , KC_F1   , KC_F2   , KC_F3   , _______ , _______ , _______ ,
         _______ , KC_F4   , KC_F5   , KC_F6   , _______ , _______ , _______ ,
         _______ , KC_F7   , KC_F8   , KC_F9   , _______ , _______ ,
         _______ , KC_F10  , KC_F11  , KC_F12  , _______ , _______ , _______ ,
@@ -159,101 +160,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 3: Layer 3
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * | BL TOG | BL 1 | BL 2 | BL 3 | BL 4 | BL 5 |      |           |      | BL 6 | BL 7 | BL 8 | BL 9 |      |BL STEP |
+ * | BL TOG | BL 1 | BL 2 | BL 3 | BL 4 | BL 5 |      |           |      | BL 6 | BL 7 | BL 8 | BL 9 |      |BL TOGG |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |        |      |      | Win+E|      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |      | Win+E|      |      |      |           |      |      |      |      |      |      | BL ↑   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
+ * |        |      |      |      |      |      |------|           |------|      |      |      |      |      | BL ↓   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |        |      |      |      |      |      |      |           |      |      |Brk,Z |      |      |Win+↑ |        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |      |      |      |      |                                       |      |      |      |Win+↓ |      |
+ *   |      |      |      |      |Ctrl+¨|                                       |      |      |Win+← |Win+↓ |Win+→ |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
  *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
- *                                 |      |      |      |       |      |      |      |
- *                                 |      |      |------|       |------|      |      |
- *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |      |       |      |      |Ctrl+ |
+ *                                 |      |      |------|       |------|      | Alt+ |
+ *                                 |      |      |      |       |      |      |Space |
  *                                 `--------------------'       `--------------------'
  */
-[3] = KEYMAP(  // Layer3:
+[3] = LAYOUT_ergodox(  // Layer3:
         // left hand
-        BL_TOGG , BL_1    , BL_2    , BL_3       , BL_4    , BL_5    , _______ ,
-        _______ , _______ , _______ , LGUI(KC_E) , _______ , _______ , _______ ,
-        _______ , _______ , _______ , _______    , _______ , _______ ,
-        _______ , _______ , _______ , _______    , _______ , _______ , _______ ,
-        _______ , _______ , _______ , _______    , F(13)   ,
-                                                             _______ , _______ ,
-                                                                       _______ ,
-                                                   _______ , _______ , _______ ,
+        _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+        _______ , _______ , _______ , G(KC_E) , _______ , _______ , _______ ,
+        _______ , _______ , _______ , _______ , _______ , _______ ,
+        _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+        _______ , _______ , _______ , _______ , C(KC_RBRC),
+                                                          _______ , _______ ,
+                                                                    _______ ,
+                                                _______ , _______ , _______ ,
         // right hand
-        _______ , BL_6    , BL_7    , BL_8    , BL_9    , _______       , BL_STEP ,
-        _______ , _______ , _______ , _______ , _______ , _______       , _______ ,
-                  _______ , _______ , _______ , _______ , _______       , _______ ,
-        _______ , _______ , _______ , _______ , _______ , _______       , _______ ,
-                            _______ , _______ , _______ , LGUI(KC_DOWN) , _______ ,
+        _______ , _______ , _______ , _______ , _______    , _______    , BL_TOGG ,
+        _______ , _______ , _______ , _______ , _______    , _______    , BL_INC  ,
+                  _______ , _______ , _______ , _______    , _______    , BL_DEC  ,
+        _______ , _______ , BRK_Z   , _______ , _______    , G(KC_UP)   , _______ ,
+                            _______ , _______ , G(KC_LEFT) , G(KC_DOWN) , G(KC_RIGHT) ,
         _______ , _______ ,
         _______ ,
-        _______ , _______ , F(12)
+        _______ , _______ , LCA(KC_SPC)
     ),
-};
-
-const uint16_t PROGMEM fn_actions[] =
-{
-     [1] = ACTION_LAYER_MOMENTARY(1),                      // Layer 1
-     [2] = ACTION_LAYER_MOMENTARY(2),                      // Layer 2
-     [3] = ACTION_LAYER_MOMENTARY(3),                      // Layer 3
-
-    [10] = ACTION_MODS_TAP_KEY(MOD_LCTL, KC_ESC),          //
-    [11] = ACTION_MODS_TAP_KEY(MOD_RCTL, KC_ESC),          //
-    [12] = ACTION_MODS_KEY(MOD_LCTL|MOD_LALT, KC_SPC),     // Ctrl + Alt + Space
-    [13] = ACTION_MODS_KEY(MOD_LCTL, KC_RBRC),             // Cltr + diacr.
-};
-
-const macro_t* action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-    // MACRODOWN only works in this function
-    switch(id)
-    {
-        case 0:
-            if (record->event.pressed)
-            {
-                SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-            }
-        break;
-
-        case 1: // ^
-            if (record->event.pressed)
-            {
-                return MACRO( T(EQUAL), T(SPC), END);
-            }
-        break;
-
-        case 2: // ` or ~
-            if (record->event.pressed)
-            {
-                if (get_mods() & (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)))
-                {
-                    clear_mods();
-                    return MACRO( D(RALT), T(EQUAL), U(RALT), T(SPC), END);
-                }
-                else
-                {
-                    return MACRO( D(LSHIFT), T(EQUAL), U(LSHIFT), T(SPC), END);
-                }
-            }
-        break;
-
-        // case 1:
-        //     if (record->event.pressed)
-        //     { // For resetting EEPROM
-        //         eeconfig_init();
-        //     }
-        break;
-    }
-
-    return MACRO_NONE;
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
@@ -262,21 +206,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     {
         // dynamically generate these.
         case EPRM:
-          if (record->event.pressed)
-          {
-              eeconfig_init();
-          }
-
-          return false;
+            if (record->event.pressed) {
+                eeconfig_init();
+            }
         break;
 
         case VRSN:
-          if (record->event.pressed)
-          {
-              SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-          }
-
-          return false;
+            if (record->event.pressed) {
+                SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            }
         break;
 
         case RGB_SLD:
@@ -287,7 +225,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
                 #endif
             }
-            return false;
+        break;
+
+        case CIRC:
+            if (record->event.pressed) {
+                SEND_STRING("= "); // ^
+            }
+        break;
+
+        case GRV_TLD:
+            if (record->event.pressed) {
+                if (get_mods() & (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT))) {
+                    clear_mods();
+                    SEND_STRING(SS_DOWN(X_RALT) "=" SS_UP(X_RALT) " ");
+                } else {
+                    SEND_STRING(SS_DOWN(X_LSHIFT) "=" SS_UP(X_LSHIFT) " ");
+                }
+            }
+        break;
+
+        case BRK_Z:
+            if (record->event.pressed) {
+                tap_code(KC_BRK);
+                SEND_STRING("Y");
+            }
         break;
     }
 
