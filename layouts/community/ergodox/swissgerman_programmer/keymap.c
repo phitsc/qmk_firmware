@@ -3,6 +3,8 @@
 #include "action_layer.h"
 #include "version.h"
 
+extern inline void ergodox_led_all_off(void);
+
 enum custom_keycodes {
     PLACEHOLDER = SAFE_RANGE, // can always be here
     EPRM,
