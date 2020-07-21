@@ -15,6 +15,14 @@ enum custom_keycodes {
     BRK_Z       // Break followed by Z
 };
 
+enum unicode_names {
+    SMILE
+};
+
+const uint32_t PROGMEM unicode_map[] = {
+    [SMILE] = 0x1F642
+};
+
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
 
@@ -70,12 +78,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // right hand
     KC_LGUI , KC_6   , KC_7    , KC_8    , KC_9     , KC_0    , KC_MINS  ,
     _______ , KC_Y   , KC_U    , KC_I    , KC_O     , KC_P    , KC_LBRC  ,
-    KC_H    , KC_J   , KC_K    , KC_L    , KC_SCLN  , KC_QUOT ,
+              KC_H   , KC_J    , KC_K    , KC_L     , KC_SCLN , KC_QUOT  ,
     KC_RSFT , KC_N   , KC_M    , KC_COMM , KC_DOT   , KC_UP   , KC_SLSH  ,
               RCTL_T(KC_ESC)   , MO(1)   , KC_LEFT  , KC_DOWN , KC_RIGHT ,
     KC_PSCR , KC_BRK ,
-    KC_F12  ,
-    KC_F8   , KC_ENT  , KC_SPC
+    C(S(KC_O)),
+    C(S(KC_M)), KC_ENT  , KC_SPC
 ),
 /* Keymap 1: Layer 1
  *
@@ -115,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______ , KC_SLSH   , KC_NUBS      , S(KC_NUBS)   , S(KC_DOT), KC_PGUP   , _______ ,
                           _______      , _______      , KC_HOME  , KC_PGDN   , KC_END  ,
     _______ , _______ ,
-    _______ ,
+    C(S(KC_P)),
     _______ , _______ , _______
 ),
 /* Keymap 2: Layer 2
@@ -191,7 +199,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                     _______ ,
                                                 _______ , _______ , _______ ,
         // right hand
-        _______ , _______ , _______ , _______ , _______    , _______    , BL_TOGG ,
+        UC_M_WC , _______ , _______ , _______ , _______    , _______    , BL_TOGG ,
         _______ , _______ , _______ , _______ , _______    , _______    , BL_INC  ,
                   _______ , _______ , _______ , _______    , _______    , BL_DEC  ,
         _______ , _______ , BRK_Z   , _______ , _______    , G(KC_UP)   , _______ ,
