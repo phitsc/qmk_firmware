@@ -41,16 +41,11 @@ We've tried to make QMK as easy to set up as possible. You only have to prepare 
 
 You will need to install MSYS2, Git, and the QMK CLI.
 
-* Follow the installation instructions on the [MSYS2 homepage](http://www.msys2.org).
-* Close any open MSYS2 terminals and open a new MSYS2 MinGW 64-bit terminal. NOTE: This is **not** the same as the MSYS terminal that opens when installation is completed.
+Follow the installation instructions on the [MSYS2 homepage](http://www.msys2.org). Close any open MSYS terminals and open a new MinGW 64-bit terminal. **NOTE: This is *not* the same as the MSYS terminal that opens when installation is completed.**
 
-After opening a new MSYS2 MinGW 64-bit terminal, make sure `pacman` is up to date with:
+Then, run the following:
 
-    pacman -Syu
-
-You may be asked to close and reopen the window. Do this and keep running the above command until it says `there is nothing to do`. Then run the following:
-
-    pacman -S git mingw-w64-x86_64-toolchain mingw-w64-x86_64-python3-pip
+    pacman --needed --noconfirm --disable-download-timeout -S git mingw-w64-x86_64-toolchain mingw-w64-x86_64-python3-pip
     python3 -m pip install qmk
 
 ### macOS
@@ -65,9 +60,12 @@ After Homebrew is installed run this command:
 
 You will need to install Git and Python. It's very likely that you already have both, but if not, one of the following commands should install them:
 
-* Debian / Ubuntu / Devuan: `sudo apt install git python3 python3-pip`
-* Fedora / Red Hat / CentOS: `sudo yum install git python3 python3-pip`
-* Arch / Manjaro: `sudo pacman -S git python python-pip python-setuptools libffi`
+* Debian / Ubuntu / Devuan: `sudo apt install -y git python3-pip`
+* Fedora / Red Hat / CentOS: `sudo yum -y install git python3-pip`
+* Arch / Manjaro: `sudo pacman --needed --noconfirm -S git python-pip libffi`
+* Void: `sudo xbps-install -y git python3-pip`
+* Solus: `sudo eopkg -y install git python3`
+* Sabayon: `sudo equo install dev-vcs/git dev-python/pip`
 
 Install the global CLI to bootstrap your system:
 
